@@ -16,10 +16,12 @@ install:
 
 .PHONY: test
 test:
+	source ${HOME}/cgo-flags.env
 	go test -count=1 ./...
 
 .PHONY: test-verbose
 test-verbose:
+	source ${HOME}/cgo-flags.env
 	go test -v -count=1 ./...
 
 generate:
@@ -33,7 +35,7 @@ generate:
 		--message-module-prefix "github.com/tiiuae/rclgo/$$dest_path" \
 		--license-header-path ./license-header.txt \
 		--include-go-package-deps ./... \
-		--cgo-flags-path "" \
+		--cgo-flags-path "${HOME}/cgo-flags.env" \
 		|| exit 1
 	rm "$$dest_path/msgs.gen.go" || exit 1
 	go run ./cmd/rclgo-gen generate-rclgo \
